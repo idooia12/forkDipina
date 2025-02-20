@@ -1,0 +1,4 @@
+CREATE DATABASE restapidb;
+
+GRANT ALL PRIVILEGES ON restapidb.* TO 'root'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
