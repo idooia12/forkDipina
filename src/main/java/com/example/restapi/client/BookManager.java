@@ -3,8 +3,8 @@ package com.example.restapi.client;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.restapi.model.Book;
 
@@ -12,21 +12,15 @@ public class BookManager {
 
     private String BOOK_CONTROLLER_URL_TEMPLATE = "http://%s:%s/api/books";
     private final String BOOK_CONTROLLER_URL;
+    private final RestTemplate restTemplate;
 
     public BookManager(String hostname, String port) {
         BOOK_CONTROLLER_URL = String.format(BOOK_CONTROLLER_URL_TEMPLATE, hostname, port);
+        this.restTemplate = new RestTemplate();
     }
 
     public void registerBook(Book book) {
-        RestClient customClient = RestClient.builder()
-                .requestFactory(new HttpComponentsClientHttpRequestFactory())
-                .build();
-
-        ResponseEntity<Void> response = customClient.post()
-                .uri(BOOK_CONTROLLER_URL)
-                .body(book)
-                .retrieve()
-                .toBodilessEntity();
+        ResponseEntity<Void> response = restTemplate.postForEntity(BOOK_CONTROLLER_URL, book, Void.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             System.out.println("Book registered successfully.");
@@ -36,14 +30,7 @@ public class BookManager {
     }
 
     public List<Book> getAllBooks() {
-        RestClient customClient = RestClient.builder()
-                .requestFactory(new HttpComponentsClientHttpRequestFactory())
-                .build();
-
-        ResponseEntity<Book[]> response = customClient.get()
-                .uri(BOOK_CONTROLLER_URL)
-                .retrieve()
-                .toEntity(Book[].class);
+        ResponseEntity<Book[]> response = restTemplate.getForEntity(BOOK_CONTROLLER_URL, Book[].class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             return List.of(response.getBody());
@@ -54,19 +41,12 @@ public class BookManager {
     }
 
     public void deleteBook(String bookId) {
-        RestClient customClient = RestClient.builder()
-                .requestFactory(new HttpComponentsClientHttpRequestFactory())
-                .build();
-
-        ResponseEntity<Void> response = customClient.delete()
-                .uri(BOOK_CONTROLLER_URL + "/" + bookId)
-                .retrieve()
-                .toBodilessEntity();
-
-        if (response.getStatusCode().is2xxSuccessful()) {
+        try {
+            restTemplate.delete(BOOK_CONTROLLER_URL + "/" + bookId);
             System.out.println("Book deleted successfully.");
-        } else {
-            System.out.println("Failed to delete book. Status code: " + response.getStatusCode());
+        } catch (RestClientException e)
+        {
+            System.out.println("Failed to delete book. " + e.getMessage());
         }
     }
 
