@@ -62,6 +62,25 @@ There is a sample REST API client implementation using the SpringBoot REST clien
 
 See <build> section in *pom.xml* to see how this command was configured to work.
 
+Packaging the application
+-------------------------
+
+Application can be packaged executing the following command
+
+    mvn package
+
+including all the SpringBoot required libraries inside the *target/rest-api-0.0.1-SNAPSHOT.jar*, which can be distributed.
+
+Once packaged, the server can be launched with
+
+    java -jar rest-api-0.0.1-SNAPSHOT.jar
+
+and the sample client by running, as SpringBoot changes the way the default Java loader
+
+    java -cp rest-api-0.0.1-SNAPSHOT.jar -Dloader.main=com.example.restapi.client.BookManager org.springframework.boot.loader.launch.PropertiesLauncher localhost 8080
+
+Therefore, in a real development, it would be advisable to create different Maven projects for server and client applications, easing distribution and manteinance of each application separately.
+
 References
 ----------
 
