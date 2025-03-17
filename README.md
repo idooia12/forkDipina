@@ -30,7 +30,7 @@ If there are no errors, you should get a running web application serving its con
 REST API
 --------
 
-The application exposes a REST API, which is used by the web application, which is implemented in the BookController class. For example, some methods are
+The application exposes a REST API, which is used by the web application, which is implemented in the BookController class. To execute these methods, you may install [POST app](https://learning.postman.com/docs/getting-started/first-steps/get-postman/) or [CURL command line tool](https://curl.se/). For example, some methods are
 
 Retrieves all the registered books
 
