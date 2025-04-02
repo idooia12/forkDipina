@@ -106,7 +106,7 @@ Metrics endpoint:
 Example sub-metric (e.g. JVM memory):
 👉 http://localhost:8080/actuator/metrics/jvm.memory.used
 
-
+Check the documentation about how to use a Java Profile, e.g. [VisualVM Java profiler](https://github.com/dipina/SpringBootBookRESTService/blob/main/profiling-app.md).
 
 References
 ----------
