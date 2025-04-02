@@ -81,6 +81,33 @@ and the sample client by running, as SpringBoot changes the way the default Java
 
 Therefore, in a real development, it would be advisable to create different Maven projects for server and client applications, easing distribution and manteinance of each application separately.
 
+
+Gathering performance metrics
+-----------------------------
+In SpringBoot, performance metrics can be enabled. For that:
+1. Declare the following dependency in `pom.xml`:
+    ```xml
+    <!-- Access metrics at: http://localhost:8080/actuator/metrics -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    ```
+2. Add the following lines to `application.properties`configuration file:
+    ```
+    # Enable metrics
+    management.endpoints.web.exposure.include=*
+    management.endpoint.health.show-details=always
+    management.endpoint.metrics.enabled=true
+    ```
+Metrics endpoint:
+👉 http://localhost:8080/actuator/metrics
+
+Example sub-metric (e.g. JVM memory):
+👉 http://localhost:8080/actuator/metrics/jvm.memory.used
+
+
+
 References
 ----------
 
