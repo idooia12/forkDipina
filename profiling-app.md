@@ -44,7 +44,7 @@ To expose runtime metrics in your Spring Boot app, add this to your `pom.xml`:
 
 ## 🚀 Step 3: Run Spring Boot with JVM Profiling Flags
 
-Use the following Maven command to run your Spring Boot app with JVM options enabled for profiling:
+Use the following Maven command to run your Spring Boot app with JVM options enabled for profiling, in Linux:
 
 ```bash
 MAVEN_OPTS="-Dcom.sun.management.jmxremote \
@@ -55,6 +55,7 @@ MAVEN_OPTS="-Dcom.sun.management.jmxremote \
             -Djava.rmi.server.hostname=127.0.0.1" \
 mvn spring-boot:run
 ```
+For Windows, use the following command: 
 
 ```cmd
 set MAVEN_OPTS=-Dcom.sun.management.jmxremote ^
