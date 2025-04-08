@@ -47,13 +47,32 @@ To expose runtime metrics in your Spring Boot app, add this to your `pom.xml`:
 Use the following Maven command to run your Spring Boot app with JVM options enabled for profiling:
 
 ```bash
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+MAVEN_OPTS="-Dcom.sun.management.jmxremote \
+            -Dcom.sun.management.jmxremote.port=9010 \
+            -Dcom.sun.management.jmxremote.local.only=false \
+            -Dcom.sun.management.jmxremote.authenticate=false \
+            -Dcom.sun.management.jmxremote.ssl=false \
+            -Djava.rmi.server.hostname=127.0.0.1" \
+mvn spring-boot:run
+```
+
+```cmd
+set MAVEN_OPTS=-Dcom.sun.management.jmxremote ^
+ -Dcom.sun.management.jmxremote.port=9010 ^
+ -Dcom.sun.management.jmxremote.local.only=false ^
+ -Dcom.sun.management.jmxremote.authenticate=false ^
+ -Dcom.sun.management.jmxremote.ssl=false ^
+ -Djava.rmi.server.hostname=127.0.0.1
+mvn spring-boot:run
 ```
 
 These flags allow:
-- JMX remote access for VisualVM
-- Java Flight Recorder (if supported)
-- Remote debugging (optional but helpful)
+- `-Dcom.sun.management.jmxremote`: Enables JMX (Java Management Extensions)
+- `-Dcom.sun.management.jmxremote.port=9010`: The port VisualVM connects to
+- `-Dcom.sun.management.jmxremote.local.only=false`: Allows non-local connections (optional if local only)
+- `-Dcom.sun.management.jmxremote.authenticate=false`: No username/password required
+- `-Dcom.sun.management.jmxremote.ssl=false`: No SSL needed
+- `-Djava.rmi.server.hostname=127.0.0.1`: Ensure correct RMI binding (important if issues occur)
 
 ---
 
